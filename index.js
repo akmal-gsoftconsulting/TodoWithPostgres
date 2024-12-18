@@ -2,7 +2,9 @@ import dotenv from "dotenv";
 import express from "express";
 
 import { User, TodoItem } from './src/common/models/index.js';
+
 import authRoutes from './src/routes/auth.route.js';
+import userRoutes from './src/routes/user.route.js';
 
 
 dotenv.config();
@@ -12,8 +14,9 @@ app.use(express.json());
 
 
 app.use('/api/auth' , authRoutes );
+app.use('/api/user' , userRoutes );
 
-app.get('/', (req, res) => {
+app.use('/', (req, res) => {
   res.send('Welcome to the To-Do App!');
 });
 
