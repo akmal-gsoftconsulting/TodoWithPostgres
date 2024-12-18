@@ -2,6 +2,7 @@ import sequelize from '../config/db.js';
 import User from './user.js';
 import TodoItem from './todoItem.js';
 import Analytics from './Analytics.js';
+import List from './list.js';
 
 
 
@@ -17,6 +18,15 @@ Analytics.belongsTo(User , { foreignKey: 'userId' });
 TodoItem.hasMany(Analytics , { foreignKey: 'todoId'  , onDelete: 'CASCADE'});
 Analytics.belongsTo(TodoItem , { foreignKey: 'todoId'});
 
+User.hasMany(List, { foreignKey: 'userId', onDelete: 'CASCADE' });
+List.belongsTo(User, { foreignKey: 'userId' });
+
+
+List.hasMany(TodoItem, { foreignKey: 'listId', onDelete: 'SET NULL' });
+TodoItem.belongsTo(List, { foreignKey: 'listId' });
+
+
+
 
 // Sync models with database
 (async () => {
@@ -28,4 +38,4 @@ Analytics.belongsTo(TodoItem , { foreignKey: 'todoId'});
   }
 })();
 
-export { User, TodoItem  , Analytics};
+export { User, TodoItem  , Analytics , List};
