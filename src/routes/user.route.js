@@ -4,8 +4,6 @@ import { isAuthenticated } from "../common/middlewares/auth.middleware.js";
 
 const router = express.Router();
 
-app.use('/api/user' , userRoutes );
-
 router.get("/profile", isAuthenticated ,getUser);
 router.put("/profile", isAuthenticated ,updateUser);
 
