@@ -3,6 +3,7 @@ import User from './user.js';
 import TodoItem from './todoItem.js';
 import Analytics from './Analytics.js';
 import List from './list.js';
+import Collaborator from './collaborator.js';
 
 
 
@@ -25,7 +26,8 @@ List.belongsTo(User, { foreignKey: 'userId' });
 List.hasMany(TodoItem, { foreignKey: 'listId', onDelete: 'SET NULL' });
 TodoItem.belongsTo(List, { foreignKey: 'listId' });
 
-
+List.belongsToMany(User, { through: Collaborator });
+User.belongsToMany(List, { through: Collaborator });
 
 
 // Sync models with database
@@ -38,4 +40,4 @@ TodoItem.belongsTo(List, { foreignKey: 'listId' });
   }
 })();
 
-export { User, TodoItem  , Analytics , List};
+export { User, TodoItem  , Analytics , List , Collaborator};
