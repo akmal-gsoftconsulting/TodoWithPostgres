@@ -4,6 +4,7 @@ import TodoItem from './todoItem.js';
 import Analytics from './Analytics.js';
 import List from './list.js';
 import Collaborator from './collaborator.js';
+import Notification from './notification.js';
 
 
 
@@ -30,6 +31,9 @@ List.belongsToMany(User, { through: Collaborator });
 User.belongsToMany(List, { through: Collaborator });
 
 
+User.hasMany(Notification, { foreignKey: 'userId', onDelete: 'CASCADE' });
+Notification.belongsTo(User, { foreignKey: 'userId' });
+
 // Sync models with database
 (async () => {
   try {
@@ -40,4 +44,4 @@ User.belongsToMany(List, { through: Collaborator });
   }
 })();
 
-export { User, TodoItem  , Analytics , List , Collaborator};
+export { User, TodoItem  , Analytics , List , Collaborator , Notification};

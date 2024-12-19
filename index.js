@@ -8,6 +8,7 @@ import userRoutes from './src/routes/user.route.js';
 import todoItemsRoutes from './src/routes/todoItems.route.js';
 import listsRoutes from './src/routes/lists.route.js';
 import collaboratorRoutes from './src/routes/collaborator.route.js';
+import notificationRoutes from './src/routes/notification.route.js';
 
 
 import analyticsRoutes from './src/routes/analytics.route.js';
@@ -26,6 +27,7 @@ app.use('/api/user' , userRoutes );
 app.use('/api/todoItems' , todoItemsRoutes );
 app.use('/api/lists' , listsRoutes );
 app.use('/api/collaborators' , collaboratorRoutes );
+app.use('/api/notifications' , notificationRoutes );
 
 
 
