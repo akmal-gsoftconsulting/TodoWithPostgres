@@ -10,6 +10,11 @@ import listsRoutes from './src/routes/lists.route.js';
 import collaboratorRoutes from './src/routes/collaborator.route.js';
 
 
+import analyticsRoutes from './src/routes/analytics.route.js';
+
+
+
+
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -21,6 +26,13 @@ app.use('/api/user' , userRoutes );
 app.use('/api/todoItems' , todoItemsRoutes );
 app.use('/api/lists' , listsRoutes );
 app.use('/api/collaborators' , collaboratorRoutes );
+
+
+
+app.use('/api/analytics' , analyticsRoutes );
+
+
+
 
 app.use('/', (req, res) => {
   res.send('Welcome to the To-Do App!');
