@@ -10,12 +10,9 @@ import listsRoutes from './src/routes/lists.route.js';
 import collaboratorRoutes from './src/routes/collaborator.route.js';
 import notificationRoutes from './src/routes/notification.route.js';
 import reminderRoutes from './src/routes/reminder.route.js';
-
-
+import tagRoutes from './src/routes/tag.route.js';
+import filterRoutes from './src/routes/filter.route.js';
 import analyticsRoutes from './src/routes/analytics.route.js';
-
-
-
 
 dotenv.config();
 const app = express();
@@ -30,9 +27,8 @@ app.use('/api/lists' , listsRoutes );
 app.use('/api/collaborators' , collaboratorRoutes );
 app.use('/api/notifications' , notificationRoutes );
 app.use('/api/reminders' , reminderRoutes );
-
-
-
+app.use('/api/tags' , tagRoutes );
+app.use('/api/filter' , filterRoutes );
 app.use('/api/analytics' , analyticsRoutes );
 
 

@@ -6,6 +6,7 @@ import List from './list.js';
 import Collaborator from './collaborator.js';
 import Notification from './notification.js';
 import Reminder from './reminder.js';
+import Tag from './tag.js';
 
 
 
@@ -38,9 +39,15 @@ Notification.belongsTo(User, { foreignKey: 'userId' });
 
 User.hasMany(Reminder, { foreignKey: 'userId', onDelete: 'CASCADE' });
 Reminder.belongsTo(User, { foreignKey: 'userId' });
-
 TodoItem.hasMany(Reminder , { foreignKey: 'todoId'  , onDelete: 'CASCADE'});
 Reminder.belongsTo(TodoItem , { foreignKey: 'todoId'});
+
+
+User.hasMany(Tag, { foreignKey: 'userId', onDelete: 'CASCADE' });
+Tag.belongsTo(User, { foreignKey: 'userId' });
+Tag.belongsToMany(TodoItem, { through: 'tag_todo', foreignKey: 'tagId' });
+TodoItem.belongsToMany(Tag, { through: 'tag_todo', foreignKey: 'todoId' });
+
 
 
 // Sync models with database
@@ -53,4 +60,4 @@ Reminder.belongsTo(TodoItem , { foreignKey: 'todoId'});
   }
 })();
 
-export { User, TodoItem  , Analytics , List , Collaborator , Notification , Reminder};
+export { User, TodoItem  , Analytics , List , Collaborator , Notification , Reminder , Tag};
