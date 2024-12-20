@@ -1,7 +1,15 @@
 import dotenv from "dotenv";
 import express from "express";
+import bodyParser from "body-parser";
+import passport from "passport";
+
+import passportStrategy from './src/common/middlewares/authPassport.middleware.js'
+
 
 import { User, TodoItem } from './src/common/models/index.js';
+
+
+import userV2Routes from './src/routes/userV2.route.js';
 
 import authRoutes from './src/routes/auth.route.js';
 import userRoutes from './src/routes/user.route.js';
@@ -14,11 +22,23 @@ import tagRoutes from './src/routes/tag.route.js';
 import filterRoutes from './src/routes/filter.route.js';
 import analyticsRoutes from './src/routes/analytics.route.js';
 
+
+
+
+
+
+
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 app.use(express.json());
 
+app.use(bodyParser.json());
+app.use(passport.initialize());
+passportStrategy(passport);
+
+
+app.use('/api/v2/user' , userV2Routes );
 
 app.use('/api/auth' , authRoutes );
 app.use('/api/user' , userRoutes );
