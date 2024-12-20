@@ -37,6 +37,20 @@ export const createTodo = async (req, res) => {
     }
 };
 
+export const getTodoForFilters = async (req, res) => {
+    try {
+        // const userId = req.user.id; 
+        // const tasks = await TodoItem.findAll({
+        //     where: { userId },
+        //     attributes: ['title', 'description', 'status', 'dueDate', 'priority']
+        // });
+        res.status(200).json({ status: 200, message : "this res come from filters" ,  data: req.data });
+    } catch (error) {
+        res.status(500).json({ status: 500, message: error.message });
+    }
+    
+};
+
 
 export const getTodo = async (req, res) => {
     try {

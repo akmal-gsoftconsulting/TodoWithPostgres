@@ -5,10 +5,6 @@ import passport from "passport";
 
 import passportStrategy from './src/common/middlewares/authPassport.middleware.js'
 
-
-import { User, TodoItem } from './src/common/models/index.js';
-
-
 import userV2Routes from './src/routes/userV2.route.js';
 
 import authRoutes from './src/routes/auth.route.js';
@@ -21,12 +17,6 @@ import reminderRoutes from './src/routes/reminder.route.js';
 import tagRoutes from './src/routes/tag.route.js';
 import filterRoutes from './src/routes/filter.route.js';
 import analyticsRoutes from './src/routes/analytics.route.js';
-
-
-
-
-
-
 
 dotenv.config();
 const app = express();
@@ -50,9 +40,6 @@ app.use('/api/reminders' , reminderRoutes );
 app.use('/api/tags' , tagRoutes );
 app.use('/api/filter' , filterRoutes );
 app.use('/api/analytics' , analyticsRoutes );
-
-
-
 
 app.use('/', (req, res) => {
   res.send('Welcome to the To-Do App!');

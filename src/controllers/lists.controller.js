@@ -29,6 +29,21 @@ class ListController {
     }
   }
 
+  static async getForFilter(req, res) {
+    try {
+      // const userId = req.user.id;
+
+      // const lists = await List.findAll({
+      //   where: { userId },
+      //   attributes: ['id', 'name'],
+      // });
+
+      res.status(200).json({ status: 200, message: "lists from filter and pagination", lists : req.data });
+    } catch (error) {
+      res.status(500).send(error.message);
+    }
+  }
+
   static async getAll(req, res) {
     try {
       const userId = req.user.id;
