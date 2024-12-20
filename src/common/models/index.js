@@ -26,8 +26,12 @@ User.hasMany(List, { foreignKey: 'userId', onDelete: 'CASCADE' });
 List.belongsTo(User, { foreignKey: 'userId' });
 
 
-List.hasMany(TodoItem, { foreignKey: 'listId', onDelete: 'SET NULL' });
-TodoItem.belongsTo(List, { foreignKey: 'listId' });
+// List.hasMany(TodoItem, { foreignKey: 'listId', onDelete: 'SET NULL' });
+// TodoItem.belongsTo(List, { foreignKey: 'listId' });
+
+List.belongsToMany(TodoItem, { through: 'list_todo', foreignKey: 'listId' });
+TodoItem.belongsToMany(List, { through: 'list_todo', foreignKey: 'todoId' });
+
 
 List.belongsToMany(User, { through: Collaborator });
 User.belongsToMany(List, { through: Collaborator });

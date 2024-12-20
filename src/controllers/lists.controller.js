@@ -19,9 +19,7 @@ class ListController {
 
       const list = await List.create({ name, userId }, { transaction });
 
-      await Promise.all(
-        tasks.map((task) => task.update({ listId: list.id }, { transaction }))
-      );
+      await list.addTodoItems(tasks, { transaction }); 
 
       await transaction.commit();
       res.status(201).json({ status: 200, message: "List created successfully", list_id: list.id });
@@ -49,8 +47,10 @@ class ListController {
   static async getOne(req, res) {
     try {
       const { id } = req.params;
+      const userId = req.user.id;
 
-      const list = await List.findByPk(id, {
+      const list = await List.findOne({
+        where: { id, userId },
         include: [
           {
             model: TodoItem,
@@ -58,6 +58,7 @@ class ListController {
           },
         ],
       });
+      
 
       if (!list) {
         return res.status(404).json({ message: "List not found" });
@@ -73,30 +74,11 @@ class ListController {
     const transaction = await sequelize.transaction();
     try {
       const { id } = req.params;
-      const { name, itemid, status } = req.body;
+      const { name } = req.body;
       const userId = req.user.id;
 
-      if (itemid && status) {
-        
-        const todoItem = await TodoItem.findOne({
-          where: {
-            id: itemid,
-            listId: id,  
-            userId: userId,  
-          },
-          transaction,
-        });
-        
-
-        if (!todoItem) {
-          return res.status(404).json({ message: "TodoItem not found" });
-        }
-
-        await todoItem.update({ status }, { transaction });
-      }
-
       if (name) {
-        const list = await List.findByPk(id, { transaction });
+        const list = await List.findOne({ where: { id, userId }, transaction });
 
         if (!list) {
           return res.status(404).json({ message: "List not found" });
@@ -106,7 +88,7 @@ class ListController {
       }
 
       await transaction.commit();
-      res.status(200).json({ status: 200, message: "List and item updated successfully" });
+      res.status(200).json({ status: 200, message: "List updated successfully" });
     } catch (error) {
       await transaction.rollback();
       res.status(500).send(error.message);
@@ -118,17 +100,19 @@ class ListController {
     try {
       const { id } = req.params;
       const userId = req.user.id;
-      
-      const list = await List.findOne({ where: { id , userId } });
+
+      const list = await List.findOne({ where: { id, userId }, transaction });
 
       if (!list) {
         return res.status(404).json({ message: "List not found" });
       }
 
-      await List.destroy({ where: { id , userId } });
+      await list.destroy({ transaction });
 
-      res.status(200).json({ status: 200, message: "List deleted" });
+      await transaction.commit();
+      res.status(200).json({ status: 200, message: "List deleted successfully" });
     } catch (error) {
+      await transaction.rollback();
       res.status(500).send(error.message);
     }
   }

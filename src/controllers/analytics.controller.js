@@ -2,7 +2,7 @@ import { Op } from 'sequelize';
 import { TodoItem , Analytics } from '../common/models/index.js';
 import sequelize from '../common/config/db.js';
 
-class TodoController {
+class AnalyticsController {
 
     // Get analytics stats between startDate and endDate
     static async statsByDate(req, res) {
@@ -26,30 +26,7 @@ class TodoController {
                 return res.status(400).json({ message: 'Start date cannot be after end date' });
             }
 
-            // // Query Analytics table to get aggregated data
-            // const analyticsData = await Analytics.findAll({
-            //     where: {
-            //         actionDate: {
-            //             [Op.between]: [start, end]
-            //         }
-            //         , 
-            //         userId 
-            //     }
-            // });
-
-            // // Aggregate actions
-            // const stats = {
-            //     create: 0,
-            //     update: 0,
-            //     read: 0
-            // };
-
-            // analyticsData.forEach(item => {
-            //     if (item.action === 'create') stats.create += 1;
-            //     if (item.action === 'update') stats.update += 1;
-            //     if (item.action === 'read') stats.read += 1;
-            // });
-
+            
 
             const analyticsData = await Analytics.findAll({
                 attributes: [
@@ -66,52 +43,6 @@ class TodoController {
             });
 
 
-            // const mostReadItem = await Analytics.findOne({
-            //     attributes: [
-            //         'todoId',
-            //         [sequelize.fn('COUNT', sequelize.col('todoId')), 'readCount']
-            //     ],
-            //     where: {
-            //         action: 'read',
-            //         userId
-            //     },
-            //     group: ['todoId'],
-            //     order: [[sequelize.literal('readCount'), 'DESC']],
-            //     // include: [
-            //     //     {
-            //     //         model: TodoItem,
-            //     //         as: 'todoItem',
-            //     //         attributes: ['title', 'description'] // Include any other fields you need
-            //     //     }
-            //     // ],
-            //     limit: 1 
-            // });
-
-
-
-            // const mostReadItem = await Analytics.findOne({
-            //     attributes: [
-            //         'todoId',
-            //         [sequelize.fn('COUNT', sequelize.col('todoId')), 'readCount']
-            //     ],
-            //     where: {
-            //         action: 'read',
-            //         userId
-            //     },
-            //     group: ['todoId'],
-            //     order: [[sequelize.col('readCount'), 'DESC']], 
-            //     include: [
-            //         {
-            //             model: TodoItem,
-            //             as: 'TodoItem',
-            //             attributes: ['title', 'description'] 
-            //         }
-            //     ],
-            //     limit: 1
-            // });
-            
-
-
             const mostReadItem = await Analytics.findOne({
                 attributes: [
                     'todoId',
@@ -124,7 +55,7 @@ class TodoController {
                     action: 'read',
                     userId
                 },
-                group: ['todoId', 'TodoItem.id', 'TodoItem.title', 'TodoItem.description'], // Add columns to GROUP BY
+                group: ['todoId', 'TodoItem.id', 'TodoItem.title', 'TodoItem.description'], 
                 order: [[sequelize.col('readCount'), 'DESC']],
                 include: [
                     {
@@ -214,4 +145,4 @@ class TodoController {
     }
 }
 
-export default TodoController;
+export default AnalyticsController;

@@ -1,14 +1,14 @@
 import express from "express";
 
-import TodoController
+import AnalyticsController
 from "../controllers/analytics.controller.js" ;
 
 import { isAuthenticated } from "../common/middlewares/auth.middleware.js";
 
 const router = express.Router();
 
-router.get("/", isAuthenticated ,  TodoController.todoStats);
-router.get("/date", isAuthenticated ,  TodoController.statsByDate);
+router.get("/", isAuthenticated ,  AnalyticsController.todoStats);
+router.get("/date", isAuthenticated ,  AnalyticsController.statsByDate);
 
 
 export default router;
